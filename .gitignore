@@ -4,5 +4,3 @@
 resources/
 public/
 .hugo_build.lock
-compose.yaml
-dockerfile
