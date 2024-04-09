@@ -261,7 +261,7 @@ docker compose up -d
 It will run the development site. Every edit made in the folder `./srv/http/src` will be reflected live on the site (http://localhost:1313).
 
 ## Publish the Site in Production
-Edit the Hugo configuration file (`hugo.yaml`, `hugo.toml`, or `hugo.json` - I prefer to use the YAML file). Make the following changes:
+Edit the Hugo configuration file (`config.yml`, `hugo.yaml`, `hugo.toml`, or `hugo.json` - I prefer to use the `config.yml` file). Make the following changes:
 1. Set the baseURL for the production site to the VPS domain name.
 2. Set the title of the production site.
 3. Set the preferred region and language.
