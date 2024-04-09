@@ -1,7 +1,7 @@
 +++
 title = 'Hosting My Own Personal Site - Hugo Static Website Generator'
-date = 2023-09-25T19:00:00Z
-draft = true
+date = 2024-04-09T16:28:00Z
+draft = false
 +++
 
 Having a personal website with a custom domain to write my thoughts, document my learnings, and put up my projects have always been a long-time goal of mine. I recently decided to follow up through that goal and bought a domain name along with a VPS (Virtual Private Server) subcription to host my website. Why VPS when another cheaper and easier solutions exist? Well because I want to learn on how to host my own website from scratch.
@@ -331,3 +331,5 @@ Finally restart the web server:
 ```bash
 sudo service apache2 restart
 ```
+
+The webserver will serve "Page Not Found" since the hugo project is empty
