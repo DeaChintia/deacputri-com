@@ -4,11 +4,11 @@ date = "2024-04-09T16:28:00+07:00"
 draft = false
 +++
 
-Having a personal website with a custom domain to write my thoughts, document my learnings, and put up my projects have always been a long-time goal of mine. I recently decided to follow up through that goal and bought a domain name along with a VPS (Virtual Private Server) subcription to host my website. Why VPS when another cheaper and easier solutions exist? Well because I want to learn on how to host my own website from scratch.
+Having a personal website with a custom domain to write my thoughts, document my learnings, and showcase my projects has always been a long-time goal of mine. I recently decided to follow through on that goal and bought a domain name, along with a VPS (Virtual Private Server) subscription, to host my website. Why VPS when there are cheaper and easier solutions? Well, because I want to learn how to host my own website from scratch.
 
-To create this website I researched a lot of options I could use, from the cloud provider to the tech stacks to use. For cloud provider, I wanted to use digitalocean at first due to their "free trial" with limited credits, but unfortunately they suspended my account right after I put my credit card information. From all the infos I gathered in the internet, they have a tendency to block accounts that use new credit card as a fraud prevention. Decided that contacting them would require too much efforts on my part, I chose a local cloud provider in my country, idcloudhost. For the website tech stacks, I got a few options from the recommendation of others on the internet and decided to use Hugo as I only need a static website for this project of mine.
+To create this website, I researched a lot of options I could use, from the cloud provider to the tech stacks to use. For the cloud provider, I initially wanted to use DigitalOcean due to their "free trial" with limited credits. Unfortunately, they suspended my account right after I entered my credit card information. From all the information I gathered on the internet, they have a tendency to block accounts that use a new credit card as a fraud prevention measure. Deciding that contacting them would require too much effort on my part, I chose a local cloud provider in my country, idcloudhost. As for the website tech stacks, I had a few options from the recommendations of others on the internet and decided to use Hugo since I only need a static website for this project of mine.
 
-In my first post, I want to document the steps I did to host my website. These are the tools I'm using below:
+In my first post, I want to document the steps I took to host my website. Below are the tools I'm using:
 1. Linux based OS for the server
 2. Hugo as a site generator
 3. PaperMod - Hugo Theme
@@ -16,10 +16,10 @@ In my first post, I want to document the steps I did to host my website. These a
 5. Git
 
 ## A little about Hugo
-Hugo is a static-website generator. It's fast, simple, free, open source, and support multi-language website. Hugo also have pre-built theme that will help me to create my website faster without the need to delve much into the technical side of web development. But the good thing is, if I want more costumization, I can also create my own template in the future. Overall, it is not too hard to setup.
+Hugo is a static website generator. It's fast, simple, free, open-source, and supports multi-language websites. Hugo also has pre-built themes that will help me create my website faster without the need to delve too much into the technical side of web development. The good thing is, if I want more customization, I can also create my own template in the future. Overall, it is not too hard to set up.
 
 ## Installing Hugo
-I installed Hugo on my Linux VPS (as a production) and on my local PC (as development). On the VPS, I installed it using the prebuilt binaries while I used docker on my local PC for development. Before installing anything, I created a folder to store the downloaded file in my home folder.
+I installed Hugo on my Linux VPS for production and on my local PC for development. On the VPS, I installed it using the prebuilt binaries, while I used Docker on my local PC. Before installing anything, I created a folder to store the downloaded file in my home directory.
 
 ```bash
 # Command (Run in Terminal):
@@ -27,13 +27,13 @@ mkdir ~/installer
 ```
 
 ### Installing Prerequisites
-While these softwares are not required for all case. I decided to install all of them for future usage:
+While these software are not required for all cases, I decided to install all of them for future usage:
 1. Git
 2. Go
 3. Dart Sass
 
 #### Installing Git
-For git, I just install it using apt install. Then validate the installation by running `git version` command.
+For Git, I just installed it using `apt install`. Then, I validated the installation by running the `git version` command.
 
 ```bash
 # Install Git
@@ -46,10 +46,10 @@ git version 2.25.1
 ```
 
 #### Installing Go
-I went to the official Go website https://go.dev/doc/install to get the installer download link.
+I went to the official Go website (https://go.dev/doc/install) to get the installer download link.
 
 ```bash
-# Command to download with wget (run in Terminal):
+# Command to download file with wget (run in Terminal):
 wget <download_link> -P ~/installer/
 
 # Example:
@@ -62,7 +62,7 @@ Install go with the command below:
 rm -rf /usr/local/go && tar -C /usr/local -xzf go1.21.4.linux-amd64.tar.gz
 ```
 
-Add this line to `$HOME/.profile` or `/etc/profile` (for a system-wide installation). I used vi as my text editor. Here how it's look like:
+Add this line to `$HOME/.profile` or `/etc/profile` (for a system-wide installation). I used vi as my text editor. Here's how it looks:
 
 ```bash
 # /etc/profile: system-wide .profile file for the Bourne shell (sh(1))
@@ -74,7 +74,7 @@ GO="/usr/local/go/bin" # <-- Add it here at the bottom
 PATH="$PATH:$GO"       # <-- Add it here at the bottom
 ```
 
-Verify the installation by running this command:
+Verify the installation by running:
 ```bash
 # Validate Installation by Checking Go Version
 go version
@@ -82,8 +82,8 @@ go version
 go version go1.21.1 linux/amd64
 ```
 
-#### Installing Dart SASS
-Go to the Dart SASS release page and choose the version (I used version 1.66.1).
+#### Installing Dart Sass
+Go to the Dart Sass release page, choose the version (I used version 1.66.1), and copy the link. Download it with `wget`:
 
 ```bash
 # Command to download with wget (run in Terminal):
@@ -93,7 +93,7 @@ wget <download_link> -P ~/installer/
 wget https://github.com/sass/dart-sass/releases/download/1.66.1/dart-sass-1.66.1-linux-x64.tar.gz -P ~/installer/
 ```
 
-Then extract the archive file to `~/installer/` folder.
+Then extract the archive file to `~/installer/` directory.
 
 ```bash
 # Command (Run in Terminal):
@@ -103,14 +103,14 @@ tar -xvf <archive_file_name> -C ~/installer/
 tar -xvf ~/installer/dart-sass-1.66.1-linux-x64.tar.gz -C ~/installer/
 ```
 
-Move the extracted "dart-sass" folder to `/user/local/` folder.
+Move the extracted `dart-sass` directory to the `/user/local/` directory.
 
 ```bash
 # Example:
 mv ~/installer/dart-sass /user/local/
 ```
 
-Add this line to `$HOME/.profile` or `/etc/profile` (for a system-wide installation). You can use any text editor. Here how it's look like:
+Add this line to `$HOME/.profile` or `/etc/profile` (for a system-wide installation). Here's how it looks:
 
 ```bash
 # /etc/profile: system-wide .profile file for the Bourne shell (sh(1))
@@ -123,9 +123,9 @@ GO="/usr/local/go/bin"
 PATH="$PATH:$DART_SASS:$GO"      # <--Edit this line
 ```
 
-Verify the installation by running this command:
+Verify the installation by running:
 ```bash
-# Validate Installation by Checking SASS Version
+# Validate Installation by Checking Sass Version
 sass --version
 # Output
 1.66.1
@@ -133,7 +133,7 @@ sass --version
 
 ### Installing Hugo - Prebuilt Binaries Installation in Linux
 1. Go to this website: https://github.com/gohugoio/hugo/tags
-2. Download the version that is going to be used. For my website I use the version 0.119.0.
+2. Download the version that is going to be used. For my website, I use Hugo version 0.119.0.
 
     ```bash
     # Command (Run in Terminal):
@@ -160,7 +160,7 @@ sass --version
     mv hugo /user/local/bin/
     ```
 
-5. Run this command to confirm that hugo already installed correctly.
+5. Run this command to confirm that Hugo is installed correctly.
 
     ```bash
     # Command (Run in Terminal):
@@ -178,7 +178,7 @@ sass --version
     ```
 
 ### Installing Hugo - Docker Container Configuration in Windows
-For development I use a docker container in my windows machine. First install docker desktop in Windows, I followed [Docker Official Documentation](https://docs.docker.com/desktop/install/windows-install/) for this. Then I created a custom docker image using this dockerfile:
+For development, I use a Docker container on my Windows machine. First, I installed Docker Desktop on Windows, following the [Docker Official Documentation](https://docs.docker.com/desktop/install/windows-install/) for this. Then, I created a custom Docker image using this Dockerfile:
 
 #### Setup Dockerfile
 
@@ -197,37 +197,37 @@ RUN wget https://go.dev/dl/go1.21.1.linux-amd64.tar.gz -P /tmp/ && \
     rm /tmp/go1.21.1.linux-amd64.tar.gz
 
 # Install Hugo
-RUN wget https://github.com/gohugoio/hugo/releases/download/v0.118.2/hugo_extended_0.118.2_linux-amd64.tar.gz -P /tmp/ && \
-    tar -C /usr/local/bin -xzf /tmp/hugo_extended_0.118.2_linux-amd64.tar.gz && \
-    rm /tmp/hugo_extended_0.118.2_linux-amd64.tar.gz
+RUN wget https://github.com/gohugoio/hugo/releases/download/v0.119.0/hugo_extended_0.119.0_linux-amd64.tar.gz -P /tmp/ && \
+    tar -C /usr/local/bin -xzf /tmp/hugo_extended_0.119.0_linux-amd64.tar.gz && \
+    rm /tmp/hugo_extended_0.119.0_linux-amd64.tar.gz
 
 # Install Hugo
 RUN wget https://github.com/sass/dart-sass/releases/download/1.66.1/dart-sass-1.66.1-linux-x64.tar.gz -P /tmp/ && \
     tar -C /usr/local -xzf /tmp/dart-sass-1.66.1-linux-x64.tar.gz && \
     rm /tmp/dart-sass-1.66.1-linux-x64.tar.gz
 
-# Set the PATH for Go & Dart SASS
+# Set the PATH for Go & Dart Sass
 ENV PATH="$PATH:/usr/local/go/bin:/usr/local/dart-sass"
 
 # Expose the port for Hugo server
 EXPOSE 1313
 ```
 
-The dockerfile above will build docker image with this specification:
+The Dockerfile provided above will build a Docker image with the following specifications:
 - Ubuntu 20.04 as operating system
 - go 1.21.1
 - hugo extended 0.118.2
 - dart-sass 1.66.1
 
-The version of all the listed softwares can be changed based on needs by modifying the software download link in the dockerfile.
+The version of all the listed software can be changed based on needs by modifying the software download links in the Dockerfile.
 
 <!-- I also made an ARG site_option for my docker image. The 0 value mean that I want to use an existing hugo project inside src folder on my host, while 1 value mean I want to make a new hugo project. This ARG site_option can be used in docker compose file later. -->
 
-Last, build the image with this command:
+Lastly, build the Docker image with this command:
 ```docker build -t de-hugo-dev .```
 
 #### Setup Docker Compose File
-This dockerfile will be used to run a docker container and serve the website with `hugo server` with exisiting project in `./srv/http/src`.
+This Dockerfile will be used to run a Docker container and serve the website with `hugo server`, using the existing project located at `./srv/http/src`.
 
 ```yaml
 services:
@@ -245,42 +245,44 @@ services:
 
 ## Running Hugo in Development
 ### Creating a New Project
-To create the container from the image, I run this command:
+To create the container from the Docker image, I run this command:
 ```bash
 docker run --rm --name de-hugo-dev -p 1313:1313 -v "./srv/http/src:/srv/http/src" --entrypoint "hugo" de-hugo-dev new site . --force
 ```
 
-The command above will create a new hugo project (if I need it) and put it inside `./srv/http/src/` on my host. The container will immediately stopped and deleted.
+The command above will create a new Hugo project, if needed, and put it inside `./srv/http/src/` on my host. The container will then be immediately stopped and deleted.
 
 ### Run the Docker Container and Serve the Website
-To run the container, just use `docker compose`:
+To run the Docker container:
 ```bash
 docker compose up -d
 ```
 
-It will run the development site. Every edit done in the folder `./srv/http/src` will be reflected live on the site (http://localhost:1313).
+It will run the development site. Every edit made in the folder `./srv/http/src` will be reflected live on the site (http://localhost:1313).
 
 ## Publish the Site in Production
-Edit the hugo config file in hugo.yaml (it could be `hugo.toml` or `hugo.json`, but I prefer to use yaml file). Make the following changes:
-1. Set the baseURL for the production site. The baseURL can be filled with the vps domain name.
+Edit the Hugo configuration file (`hugo.yaml`, `hugo.toml`, or `hugo.json` - I prefer to use the YAML file). Make the following changes:
+1. Set the baseURL for the production site to the VPS domain name.
 2. Set the title of the production site.
+3. Set the preferred region and language.
 
 ```yaml
 baseURL: "http://deacputri.com"
+languageCode: "en-us"
 title: De's Personal Site
 ```
 
-To publish the site, I can use:
+To publish the site, run:
 ```hugo```
 
-It will generate the ready-to-publish site in ```public``` directory. Then in the VPS, create directory `/srv/http/your-website-name`. Copy the generated `public` folder in development to the `/srv/http/your-website-name` in production.
+It will generate the ready-to-publish site in the `public` directory. Then, on the VPS, create the directory `/srv/http/your-website-name`. Copy the generated `public` folder from development to `/srv/http/your-website-name` in production.
 
-Edit the apache2 configuration file:
+Next, edit the Apache2 configuration file:
 ```bash
 sudo vi /etc/apache2/apache2.conf
 ```
 
-Comment these lines:
+Comment out these lines:
 ```xml
 # <Directory /var/www/>
 #         Options Indexes FollowSymLinks
@@ -289,7 +291,7 @@ Comment these lines:
 # </Directory>
 ```
 
-and add these lines:
+and add the following lines:
 ```xml
 <Directory /srv/http/your-website-name/public/>
         Options Indexes FollowSymLinks
@@ -300,12 +302,12 @@ and add these lines:
 
 Save the file.
 
-Next edit the default virtual host configuration file:
+Then, edit the default virtual host configuration file:
 ```bash
 sudo vi /etc/apache2/sites-available/000-default.conf
 ```
 
-Edit this lines from:
+Change these lines from:
 ```xml
 <VirtualHost *:80>
     ...
@@ -316,7 +318,7 @@ Edit this lines from:
 </VirtualHost>
 ```
 
-To:
+to:
 ```xml
 <VirtualHost *:80>
     ...
@@ -327,9 +329,9 @@ To:
 </VirtualHost>
 ```
 
-Finally restart the web server:
+Finally, restart the web server:
 ```bash
 sudo service apache2 restart
 ```
 
-The webserver will serve "Page Not Found" since the hugo project is empty
+The web server will serve "Page Not Found" since the Hugo project is empty.
