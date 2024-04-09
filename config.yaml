@@ -14,6 +14,10 @@ languages:
         weight: 1
         contentDir: content/en
         languageCode: en-US
+        taxonomies:
+            category: categories
+            tag: tags
+            series: series
         params:
             languageAltTitle: English
             profileMode:
@@ -46,6 +50,10 @@ languages:
         weight: 2
         contentDir: content/id
         languageCode: id-ID
+        taxonomies:
+            category: categories
+            tag: tags
+            series: series
         params:
             languageAltTitle: Indonesia
             profileMode:

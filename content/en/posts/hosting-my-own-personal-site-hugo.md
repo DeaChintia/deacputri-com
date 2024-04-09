@@ -1,8 +1,11 @@
-+++
-title = 'Hosting My Own Personal Site - Hugo Static Website Generator'
-date = "2024-04-09T16:28:00+07:00"
-draft = false
-+++
+---
+title: 'Hosting My Own Personal Site - Hugo Static Website Generator'
+date: '2024-04-09T16:28:00+07:00'
+categories: ['Hugo']
+tags: ['Hugo']
+series: ['Personal Site with Hugo']
+draft: false
+---
 
 Having a personal website with a custom domain to write my thoughts, document my learnings, and showcase my projects has always been a long-time goal of mine. I recently decided to follow through on that goal and bought a domain name, along with a VPS (Virtual Private Server) subscription, to host my website. Why VPS when there are cheaper and easier solutions? Well, because I want to learn how to host my own website from scratch.
 
