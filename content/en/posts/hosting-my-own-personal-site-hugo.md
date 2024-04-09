@@ -13,7 +13,7 @@ In my first post, I want to document the steps I did to host my website. These a
 2. Hugo as a site generator
 3. PaperMod - Hugo Theme
 4. Apache 2 as web server
-5. Git and Github
+5. Git
 
 ## A little about Hugo
 Hugo is a static-website generator. It's fast, simple, free, open source, and support multi-language website. Hugo also have pre-built theme that will help me to create my website faster without the need to delve much into the technical side of web development. But the good thing is, if I want more costumization, I can also create my own template in the future. Overall, it is not too hard to setup.
@@ -21,7 +21,7 @@ Hugo is a static-website generator. It's fast, simple, free, open source, and su
 ## Installing Hugo
 I installed Hugo on my Linux VPS (as a production) and on my local PC (as development). On the VPS, I installed it using the prebuilt binaries while I used docker on my local PC for development. Before installing anything, I created a folder to store the downloaded file in my home folder.
 
-```shell
+```bash
 # Command (Run in Terminal):
 mkdir ~/installer
 ```
@@ -33,9 +33,9 @@ While these softwares are not required for all case. I decided to install all of
 3. Dart Sass
 
 #### Installing Git
-For git, I just install it using apt install. Then validate the installation by running "git version" command.
+For git, I just install it using apt install. Then validate the installation by running `git version` command.
 
-```shell
+```bash
 # Install Git
 sudo apt install git-all
 
@@ -48,7 +48,7 @@ git version 2.25.1
 #### Installing Go
 I went to the official Go website https://go.dev/doc/install to get the installer download link.
 
-```shell
+```bash
 # Command to download with wget (run in Terminal):
 wget <download_link> -P ~/installer/
 
@@ -58,9 +58,9 @@ wget https://go.dev/dl/go1.21.1.linux-amd64.tar.gz -P ~/installer/
 
 rm -rf /usr/local/go && tar -C /usr/local -xzf go1.21.4.linux-amd64.tar.gz
 
-Add this line to $HOME/.profile or /etc/profile (for a system-wide installation). I used vi as my text editor. Here how it's look like:
+Add this line to `$HOME/.profile` or `/etc/profile` (for a system-wide installation). I used vi as my text editor. Here how it's look like:
 
-```shell
+```bash
 # /etc/profile: system-wide .profile file for the Bourne shell (sh(1))
 # and Bourne compatible shells (bash(1), ksh(1), ash(1), ...).
 
@@ -74,7 +74,7 @@ PATH="$PATH:$GO"       # <-- Add it here at the bottom
 ```
 
 Verify the installation by running this command:
-```shell
+```bash
 # Validate Installation by Checking Go Version
 go version
 # Output
@@ -82,9 +82,9 @@ go version go1.21.1 linux/amd64
 ```
 
 #### Installing Dart SASS
-Go to the Dart SASS release page and choose the version that you want to download (I use version 1.66.1).
+Go to the Dart SASS release page and choose the version (I used version 1.66.1).
 
-```shell
+```bash
 # Command to download with wget (run in Terminal):
 wget <download_link> -P ~/installer/
 
@@ -92,9 +92,9 @@ wget <download_link> -P ~/installer/
 wget https://github.com/sass/dart-sass/releases/download/1.66.1/dart-sass-1.66.1-linux-x64.tar.gz -P ~/installer/
 ```
 
-Then extract the archive file to "~/installer/" folder.
+Then extract the archive file to `~/installer/` folder.
 
-```shell
+```bash
 # Command (Run in Terminal):
 tar -xvf <archive_file_name> -C ~/installer/
 
@@ -102,16 +102,16 @@ tar -xvf <archive_file_name> -C ~/installer/
 tar -xvf ~/installer/dart-sass-1.66.1-linux-x64.tar.gz -C ~/installer/
 ```
 
-Move the extracted "dart-sass" folder to "/user/local/" folder.
+Move the extracted "dart-sass" folder to `/user/local/` folder.
 
-```shell
+```bash
 # Example:
 mv ~/installer/dart-sass /user/local/
 ```
 
-Add this line to $HOME/.profile or /etc/profile (for a system-wide installation). You can use any text editor. Here how it's look like:
+Add this line to `$HOME/.profile` or `/etc/profile` (for a system-wide installation). You can use any text editor. Here how it's look like:
 
-```shell
+```bash
 # /etc/profile: system-wide .profile file for the Bourne shell (sh(1))
 # and Bourne compatible shells (bash(1), ksh(1), ash(1), ...).
 
@@ -126,7 +126,7 @@ PATH="$PATH:$DART_SASS:$GO"      # <--Edit this line
 ```
 
 Verify the installation by running this command:
-```shell
+```bash
 # Validate Installation by Checking SASS Version
 sass --version
 # Output
@@ -135,9 +135,9 @@ sass --version
 
 ### Installing Hugo - Prebuilt Binaries Installation in Linux
 1. Go to this website: https://github.com/gohugoio/hugo/tags
-2. Download the version you want to use. For my website I use the version 0.119.0.
+2. Download the version that is going to be used. For my website I use the version 0.119.0.
 
-    ```shell
+    ```bash
     # Command (Run in Terminal):
     wget <download_link> -P ~/installer/
     
@@ -147,7 +147,7 @@ sass --version
 
 3. Extract the archive file
 
-    ```shell
+    ```bash
     # Command (Run in Terminal):
     tar -xvf <archive_file_name> -C ~/installer/
 
@@ -155,16 +155,16 @@ sass --version
     tar -xvf ~/installer/hugo_extended_0.119.0_Linux-64bit.tar.gz -C ~/installer/
     ```
 
-4. Move the "hugo" executable file to "/usr/local/bin/". This directory already exists in Linux PATH environment variable, so there is no need to add it again.
+4. Move the "hugo" executable file to `/usr/local/bin/`. This directory already exists in Linux PATH environment variable, so there is no need to add it again later.
 
-    ```shell
+    ```bash
     # Command (Run in Terminal):
     mv hugo /user/local/bin/
     ```
 
 5. Run this command to confirm that hugo already installed correctly.
 
-    ```shell
+    ```bash
     # Command (Run in Terminal):
     hugo env
     # Output:
@@ -221,14 +221,19 @@ The dockerfile above will build docker image with this specification:
 - hugo extended 0.118.2
 - dart-sass 1.66.1
 
-You can change the version of all the listed softwares based on your need by changing the software download link.
+The version of all the listed softwares can be changed based on needs by modifying the software download link in the dockerfile.
 
-~~I also made an ARG site_option for my docker image. The 0 value mean that I want to use an existing hugo project inside src folder on my host, while 1 value mean I want to make a new hugo project. This ARG site_option can be used in docker compose file later.~~
+<!-- I also made an ARG site_option for my docker image. The 0 value mean that I want to use an existing hugo project inside src folder on my host, while 1 value mean I want to make a new hugo project. This ARG site_option can be used in docker compose file later. -->
 
+To create the container from the image, I run this command:
+```bash
+docker run --rm --name de-hugo-dev -p 1313:1313 -v "./srv/http/src:/srv/http/src" --entrypoint "hugo" de-hugo-dev new site . --force
+```
+
+The command above will create a new hugo project (if I need it) and put it inside `./srv/http/src/` on my host. The container will immediately stopped and deleted. Then I can use a docker compose run my existing project in `./srv/http/src`.
 
 #### Docker Compose File
-
-Then I use this docker compose file to create the container.
+Then I use this docker compose file to run the development website.
 
 ```yaml
 services:
@@ -241,5 +246,5 @@ services:
     command: "server -D --bind 0.0.0.0 --port 1313 --poll 700ms"
     working_dir: /srv/http/src
     volumes:
-      - "D:/destuffs/Projects/PortofolioWeb/srv/http/src:/srv/http/src"
+      - "./srv/http/src:/srv/http/src"
 ```
