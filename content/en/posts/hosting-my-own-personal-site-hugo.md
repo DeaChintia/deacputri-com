@@ -56,18 +56,19 @@ wget <download_link> -P ~/installer/
 wget https://go.dev/dl/go1.21.1.linux-amd64.tar.gz -P ~/installer/
 ```
 
+Install go with the command below:
+```bash
+# It will remove exisiting installation and extract the go folder with go binary in /usr/local
 rm -rf /usr/local/go && tar -C /usr/local -xzf go1.21.4.linux-amd64.tar.gz
+```
 
 Add this line to `$HOME/.profile` or `/etc/profile` (for a system-wide installation). I used vi as my text editor. Here how it's look like:
 
 ```bash
 # /etc/profile: system-wide .profile file for the Bourne shell (sh(1))
 # and Bourne compatible shells (bash(1), ksh(1), ash(1), ...).
-
-.
-.
-.
-
+...
+...
 # Applications Path    # <-- Add it here at the bottom
 GO="/usr/local/go/bin" # <-- Add it here at the bottom
 PATH="$PATH:$GO"       # <-- Add it here at the bottom
@@ -114,11 +115,8 @@ Add this line to `$HOME/.profile` or `/etc/profile` (for a system-wide installat
 ```bash
 # /etc/profile: system-wide .profile file for the Bourne shell (sh(1))
 # and Bourne compatible shells (bash(1), ksh(1), ash(1), ...).
-
 ...
 ...
-...
-
 # Applications Path
 DART_SASS="/usr/local/dart-sass" # <-- Add it here
 GO="/usr/local/go/bin"
@@ -182,7 +180,7 @@ sass --version
 ### Installing Hugo - Docker Container Configuration in Windows
 For development I use a docker container in my windows machine. First install docker desktop in Windows, I followed [Docker Official Documentation](https://docs.docker.com/desktop/install/windows-install/) for this. Then I created a custom docker image using this dockerfile:
 
-#### Dockerfile
+#### Setup Dockerfile
 
 ```dockerfile
 # Use a base image
@@ -225,15 +223,11 @@ The version of all the listed softwares can be changed based on needs by modifyi
 
 <!-- I also made an ARG site_option for my docker image. The 0 value mean that I want to use an existing hugo project inside src folder on my host, while 1 value mean I want to make a new hugo project. This ARG site_option can be used in docker compose file later. -->
 
-To create the container from the image, I run this command:
-```bash
-docker run --rm --name de-hugo-dev -p 1313:1313 -v "./srv/http/src:/srv/http/src" --entrypoint "hugo" de-hugo-dev new site . --force
-```
+Last, build the image with this command:
+```docker build -t de-hugo-dev .```
 
-The command above will create a new hugo project (if I need it) and put it inside `./srv/http/src/` on my host. The container will immediately stopped and deleted. Then I can use a docker compose run my existing project in `./srv/http/src`.
-
-#### Docker Compose File
-Then I use this docker compose file to run the development website.
+#### Setup Docker Compose File
+This dockerfile will be used to run a docker container and serve the website with `hugo server` with exisiting project in `./srv/http/src`.
 
 ```yaml
 services:
@@ -247,4 +241,93 @@ services:
     working_dir: /srv/http/src
     volumes:
       - "./srv/http/src:/srv/http/src"
+```
+
+## Running Hugo in Development
+### Creating a New Project
+To create the container from the image, I run this command:
+```bash
+docker run --rm --name de-hugo-dev -p 1313:1313 -v "./srv/http/src:/srv/http/src" --entrypoint "hugo" de-hugo-dev new site . --force
+```
+
+The command above will create a new hugo project (if I need it) and put it inside `./srv/http/src/` on my host. The container will immediately stopped and deleted.
+
+### Run the Docker Container and Serve the Website
+To run the container, just use `docker compose`:
+```bash
+docker compose up -d
+```
+
+It will run the development site. Every edit done in the folder `./srv/http/src` will be reflected live on the site (http://localhost:1313).
+
+## Publish the Site in Production
+Edit the hugo config file in hugo.yaml (it could be `hugo.toml` or `hugo.json`, but I prefer to use yaml file). Make the following changes:
+1. Set the baseURL for the production site. The baseURL can be filled with the vps domain name.
+2. Set the title of the production site.
+
+```yaml
+baseURL: "http://deacputri.com"
+title: De's Personal Site
+```
+
+To publish the site, I can use:
+```hugo```
+
+It will generate the ready-to-publish site in ```public``` directory. Then in the VPS, create directory `/srv/http/your-website-name`. Copy the generated `public` folder in development to the `/srv/http/your-website-name` in production.
+
+Edit the apache2 configuration file:
+```bash
+sudo vi /etc/apache2/apache2.conf
+```
+
+Comment these lines:
+```xml
+# <Directory /var/www/>
+#         Options Indexes FollowSymLinks
+#         AllowOverride None
+#         Require all granted
+# </Directory>
+```
+
+and add these lines:
+```xml
+<Directory /srv/http/your-website-name/public/>
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        Require all granted
+</Directory>
+```
+
+Save the file.
+
+Next edit the default virtual host configuration file:
+```bash
+sudo vi /etc/apache2/sites-available/000-default.conf
+```
+
+Edit this lines from:
+```xml
+<VirtualHost *:80>
+    ...
+    ...
+    DocumentRoot /var/www/html
+    ...
+    ...
+</VirtualHost>
+```
+
+To:
+```xml
+<VirtualHost *:80>
+    ...
+    ...
+    DocumentRoot /srv/http/your-website-name/public
+    ...
+    ...
+</VirtualHost>
+```
+
+Finally restart the web server:
+```bash
+sudo service apache2 restart
 ```
