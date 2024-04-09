@@ -1,6 +1,6 @@
 +++
 title = 'Hosting My Own Personal Site - Hugo Static Website Generator'
-date = 2024-04-09T16:28:00Z
+date = "2024-04-09T16:28:00+07:00"
 draft = false
 +++
 
