@@ -11,20 +11,21 @@ defaultContentLanguageInSubdir: true
 languages:
     en:
         languageName: English
-        languageAltTitle: English
         weight: 1
         contentDir: content/en
         languageCode: en-US
-        profileMode:
-            enabled: true
-            title: Dea Chintia Putri
-            imageUrl: "images/dea_profile.png"
-            subtitle: "Life-Long Learner | Currently a DBA | Love Playing Games"
-            buttons:
-                - name: Blog
-                  url: posts
-                - name: Project
-                  url: projects
+        params:
+            languageAltTitle: English
+            profileMode:
+                enabled: true
+                title: Dea Chintia Putri
+                imageUrl: "images/dea_profile.png"
+                subtitle: "Life-Long Learner | Currently a DBA | Love Playing Games"
+                buttons:
+                    - name: Blog
+                      url: posts
+                    - name: Project
+                      url: projects
         menu:
             main:
                 - name: Archive
@@ -42,20 +43,21 @@ languages:
 
     id:
         languageName: Indonesia
-        languageAltTitle: Indonesia
         weight: 2
         contentDir: content/id
         languageCode: id-ID
-        profileMode:
-            enabled: true
-            title: Dea Chintia Putri
-            imageUrl: "images/dea_profile.png"
-            subtitle: "Life-Long Learner | Seorang DBA | Senang Bermain Games"
-            buttons:
-                - name: Blog
-                  url: posts
-                - name: Proyek
-                  url: projects
+        params:
+            languageAltTitle: Indonesia
+            profileMode:
+                enabled: true
+                title: Dea Chintia Putri
+                imageUrl: "images/dea_profile.png"
+                subtitle: "Life-Long Learner | Seorang DBA | Senang Bermain Games"
+                buttons:
+                    - name: Blog
+                      url: posts
+                    - name: Proyek
+                      url: projects
         menu:
             main:
                 - name: Arsip
