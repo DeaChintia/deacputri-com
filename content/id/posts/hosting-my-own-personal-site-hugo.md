@@ -337,4 +337,4 @@ Terakhir, mulai ulang (*restart*) layanan server web:
 sudo service apache2 restart
 ```
 
-Akses situs web dengan menggunakan domain name yang sudah dikonfigurasi pada *VPS*. Perlu dicatat bahwa server web akan menampilkan "*Page Not Found*" karena proyek Hugo masih kosong.
+Akses situs web dengan menggunakan alamat IP global atau domain name yang sudah dikonfigurasi pada *VPS*. Perlu dicatat bahwa server web akan menampilkan "*Page Not Found*" karena proyek Hugo masih kosong.
