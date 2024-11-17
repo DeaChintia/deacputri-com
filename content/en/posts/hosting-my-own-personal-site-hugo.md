@@ -34,6 +34,8 @@ While these software are not required for all cases, I decided to install all of
 2. Go
 3. Dart Sass
 
+Before doing anything, I ran `sudo apt update` to update the available packages list information in my server.
+
 #### Installing Git
 For Git, I just installed it using `apt install`. Then, I validated the installation by running the `git version` command.
 
@@ -55,13 +57,13 @@ I went to the official Go website (https://go.dev/doc/install) to get the instal
 wget <download_link> -P ~/installer/
 
 # Example:
-wget https://go.dev/dl/go1.21.1.linux-amd64.tar.gz -P ~/installer/
+wget https://go.dev/dl/go1.21.4.linux-amd64.tar.gz -P ~/installer/
 ```
 
 Next, install go with the command below:
 ```bash
-# It will remove the exisiting installation and extract the go package to /usr/local
-rm -rf /usr/local/go && tar -C /usr/local -xzf go1.21.4.linux-amd64.tar.gz
+# It will remove the exisiting installation and install the go package in /usr/local
+sudo rm -rf /usr/local/go && tar -C ~/installer/ -xzf ~/installer/go1.21.4.linux-amd64.tar.gz && sudo mv ~/installer/go /usr/local/
 ```
 
 Add these lines to `$HOME/.profile` or `/etc/profile` (for a system-wide installation). I used vi as my text editor. Here's how it looks:
@@ -76,12 +78,12 @@ GO="/usr/local/go/bin" # <-- Add it here at the bottom
 PATH="$PATH:$GO"       # <-- Add it here at the bottom
 ```
 
-Lastly, verify the installation by running:
+Lastly, re-login to apply the changes of the profile file and verify the installation by running:
 ```bash
 # Validate installation by checking Go version
 go version
 # Output
-go version go1.21.1 linux/amd64
+go version go1.21.4 linux/amd64
 ```
 
 #### Installing Dart Sass
@@ -105,11 +107,11 @@ tar -xvf <archive_file_name> -C ~/installer/
 tar -xvf ~/installer/dart-sass-1.66.1-linux-x64.tar.gz -C ~/installer/
 ```
 
-Move the extracted `dart-sass` directory to the `/user/local/` directory.
+Move the extracted `dart-sass` directory to the `/usr/local/` directory.
 
 ```bash
 # Example:
-mv ~/installer/dart-sass /user/local/
+sudo mv ~/installer/dart-sass /usr/local/
 ```
 
 Add these lines to `$HOME/.profile` or `/etc/profile` (for a system-wide installation). Here's how it looks:
@@ -125,7 +127,7 @@ GO="/usr/local/go/bin"
 PATH="$PATH:$DART_SASS:$GO"      # <--Edit this line
 ```
 
-Finally, verify the installation by running:
+Finally, re-login to apply the changes of the profile file and verify the installation by running:
 ```bash
 # Validate installation by checking Sass version
 sass --version
@@ -159,7 +161,7 @@ sass --version
 
     ```bash
     # Command (Run in Terminal):
-    mv hugo /user/local/bin/
+    sudo mv hugo /usr/local/bin/
     ```
 
 5. Run this command to confirm that Hugo is installed correctly.

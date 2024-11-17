@@ -7,21 +7,21 @@ series: ['Situs Web Personal Pakai Hugo']
 draft: false
 ---
 
-Memiliki situs web personal dengan nama domain *custom* untuk menuliskan pikiran, mendokumentasikan hasil belajar, dan memamerkan proyek-proyek saya adalah *goal* yang sudah lama ingin saya lakukan. Baru ini, saya memutuskan untuk memenuhi keinginan tersebut dan membeli sebuah nama domain, sekaligus berlangganan sebuah VPS, untuk meng-*hosting* situs web personal ini. "Kenapa VPS? Padahal ada opsi yang lebih gampang dan murah." Alasannya karena saya ingin mencoba proyek kecil-kecilan ini dari awal, sekalian untuk belajar.
+Punya situs web personal dengan nama domain *custom* untuk menuliskan pikiran, mendokumentasikan hasil belajar, dan memamerkan proyek-proyek saya adalah *goal* yang sudah lama ingin saya lakukan. Baru ini, saya memutuskan memulai dan membeli sebuah nama domain, sekaligus berlangganan sebuah VPS, untuk meng-*hosting* situs web ini. "Kenapa VPS? Padahal ada opsi yang lebih gampang dan murah." Alasannya karena saya ingin coba proyek kecil-kecilan ini dari awal, sekalian untuk belajar.
 
-Dalam pembuatan situs web ini, saya melakukan riset kecil-kecilan untuk opsi yang dapat saya pakai, mulai dari penyedia jasa layanan *cloud* (*Virtual Cloud Server*) sampai *tech stacks* yang akan dipakai. Awalnya, saya ingin menggunakan DigitalOcean sebagai penyedia jasa layanan *cloud* karena mereka memiliki masa coba gratis dengan menggunakan kredit terbatas. Sayang, mereka langsung menangguhkan akun saya setelah saya mendaftarkan kartu kredit. Setelah dicari-cari, rupanya mereka sering memblok akun-akun yang menggunakan kartu kredit baru sebagai upaya pencegahan *fraud*. Menghubungi layanan bantuan mereka sepertinya hanya akan membuang banyak waktu, jadi saya memutuskan untuk menggunakan penyedia jasa layanan *cloud* lokal bernama idcloudhost. Untuk *tech stacks*-nya, saya menemukan beberapa rekomendasi di internet dan memutuskan untuk menggunakan Hugo. Ini karena saya hanya membutuhkan web statis dan Hugo sudah cukup untuk memenuhi itu.
+Dalam pembuatan situs ini, saya melakukan riset kecil-kecilan untuk opsi yang dapat dipakai, mulai dari penyedia jasa layanan *cloud* (*Virtual Cloud Server*) sampai *tech stacks* yang akan dipakai. Awalnya, saya ingin pakai DigitalOcean sebagai penyedia jasa layanan *cloud* karena mereka punya masa coba gratis dengan memakai kredit terbatas. Sayang, mereka langsung menangguhkan akun saya setelah saya mendaftarkan kartu kredit. Setelah dicari-cari, rupanya mereka sering memblok akun-akun yang menggunakan kartu kredit baru sebagai upaya pencegahan *fraud*. Daripada buang-buang waktu menghubungi mereka, saya memutuskan untuk memakai penyedia jasa layanan *cloud* lokal bernama idcloudhost. Untuk *tech stacks*-nya, saya menemukan beberapa rekomendasi di internet dan memutuskan untuk menggunakan Hugo. Ini karena saya hanya butuh web statis dan Hugo sudah cukup untuk memenuhi itu.
 
-Pada artikel pertama ini, saya akan mendokumentasikan langkah-langkah yang saya lakukan untuk meng-*hosting* situs web ini. Berikut perangkat lunak yang saya gunakan:
+Pada artikel pertama ini, saya akan mendokumentasikan langkah-langkah untuk meng-*hosting* situs web ini. Berikut perangkat lunak yang saya gunakan:
 1. Sistem Operasi berbasis Linux untuk server web
 2. Hugo sebagai generator situs web
 3. Apache 2 sebagai server web
 4. Git
 
 ## Sedikit tentang Hugo
-Hugo adalah sebuah generator situs web statis. Hugo cukup cepat, gratis, *open source*, dan mendukung situs web banyak bahasa. Hugo juga memiliki banyak tema bawaan yang dapat mempercepat pembuatan situs web tanpa harus menyelam terlalu dalam pada sisi teknis pembuatan web. Kabar baiknya, Hugo mendukung penggunaan templat *custom* jika seandainya saya ingin membuat templat sendiri. Secara keseluruhan, tidak sulit menggunakan Hugo.
+Hugo adalah sebuah generator situs web statis. Hugo cukup cepat, gratis, *open source*, dan mendukung situs web banyak bahasa. Hugo juga punya banyak tema bawaan yang dapat mempercepat pembuatan web tanpa harus menyelam terlalu dalam pada sisi teknis. Kabar baiknya, Hugo mendukung penggunaan *custom template* jika seandainya saya ingin membuat templat sendiri di kemudian hari. Kalau dilihat, rasanya tidak susah menggunakan Hugo.
 
 ## Menginstal Hugo
-Saya menginstal Hugo pada *VPS* Linux sebagai *production* dan pada *PC* lokal untuk *development*. Pada *VPS*, saya menginstal Hugo menggunakan *prebuilt binaries*. Untuk *PC* lokal, saya menggunakan Docker. Sebelum melakukan instalasi, saya membuat sebuah folder di *VPS* untuk menaruh semua *file* instalasi pada direktori `home`.
+Saya menginstal Hugo pada *VPS* Linux sebagai *production* dan pada *PC* lokal untuk *development*. Pada *VPS*, saya menginstal Hugo menggunakan *prebuilt binaries*. Untuk *PC* lokal, saya menggunakan Docker. Sebelum instal, saya membuat folder di *VPS* untuk menaruh semua *file* untuk instalasi pada direktori `home`.
 
 ```bash
 # Perintah (jalankan di Terminal):
@@ -29,13 +29,15 @@ mkdir ~/installer
 ```
 
 ### Menginstal Prasyarat
-Walaupun perangkat lunak berikut tidak dibutuhkan semuanya di awal, saya memutuskan untuk menginstal semuanya untuk kebutuhan di masa yang akan datang.
+Walaupun perangkat lunak berikut tidak dipakai semuanya di awal, saya memutuskan untuk menginstal semuanya jikalau saya butuh di kemudian hari.
 1. Git
 2. Go
 3. Dart Sass
 
+Sebelum mulai, saya menjalankan perintah `sudo apt update` untuk memperbarui informasi daftar *package* yang tersedia.
+
 #### Menginstal Git
-Untuk Git, saya menginstalnya menggunakan `apt install`. Lalu, hasil instalasi divalidasi dengan menjalankan perintah `git version`.
+Untuk Git, saya instal menggunakan `apt install`. Lalu, hasil instalasi divalidasi dengan perintah `git version`.
 
 ```bash
 # Instal Git
@@ -48,23 +50,23 @@ git version 2.25.1
 ```
 
 #### Menginstal Go
-Saya mendapatkan tautan unduhan *file* instalasi Go dari situs web resmi Go (https://go.dev/doc/install). Lalu, saya unduh *file* instalasi tersebut menggunakan `wget`.
+Saya mendapatkan tautan unduhan (*download link*) *file* instalasi Go dari situs web resmi Go (https://go.dev/doc/install). Lalu, saya unduh *file* instalasi tersebut menggunakan `wget`.
 
 ```bash
 # Perintah untuk mengunduh file dengan wget (jalanakn di Terminal):
 wget <tautan_unduhan> -P ~/installer/
 
 # Contoh:
-wget https://go.dev/dl/go1.21.1.linux-amd64.tar.gz -P ~/installer/
+wget https://go.dev/dl/go1.21.4.linux-amd64.tar.gz -P ~/installer/
 ```
 
 Selanjutnya, instal go dengan perintah berikut:
 ```bash
-# Perintah ini akan menghapus instalasi Go yang sudah ada dan mengekstrak package go ke /usr/local
-rm -rf /usr/local/go && tar -C /usr/local -xzf go1.21.4.linux-amd64.tar.gz
+# Perintah ini akan menghapus instalasi Go yang sudah ada dan menginstal package go ke /usr/local
+sudo rm -rf /usr/local/go && tar -C ~/installer/ -xzf ~/installer/go1.21.4.linux-amd64.tar.gz && sudo mv ~/installer/go /usr/local/
 ```
 
-Tambahkan baris-baris berikut ke `$HOME/.profile` atau `/etc/profile` (untuk instalasi pada seluruh user). Saya menggunakan vi sebagai editor teks. Berikut contohnya:
+Tambah baris-baris berikut ke `$HOME/.profile` atau `/etc/profile` (untuk instalasi pada seluruh user). Saya menggunakan vim sebagai editor teks. Berikut contohnya:
 
 ```bash
 # /etc/profile: system-wide .profile file for the Bourne shell (sh(1))
@@ -81,11 +83,11 @@ Terakhir, verifikasi instalasi dengan menjalankan:
 # Validasi instalasi dengan mengecek versi Go
 go version
 # Keluaran
-go version go1.21.1 linux/amd64
+go version go1.21.4 linux/amd64
 ```
 
 #### Menginstal Dart Sass
-Buka halaman rilis Dart Sass, pilih versinya (saya menggunakan versi 1.66.1), dan salin tautannya. Unduh dengan `wget`:
+Buka halaman rilis (*release page*) Dart Sass, pilih versinya (saya menggunakan versi 1.66.1), dan salin tautannya. Unduh dengan `wget`:
 
 ```bash
 # Perintah untuk mengunduh dengan wget (jalankan di Terminal):
@@ -95,7 +97,7 @@ wget <tautan_unduhan> -P ~/installer/
 wget https://github.com/sass/dart-sass/releases/download/1.66.1/dart-sass-1.66.1-linux-x64.tar.gz -P ~/installer/
 ```
 
-Kemudian ekstrak *archive file* ke direktori `~/installer/`.
+Kemudian, ekstrak *archive file* ke direktori `~/installer/`.
 
 ```bash
 # Perintah (jalankan di Terminal):
@@ -105,14 +107,14 @@ tar -xvf <nama_arsip_file> -C ~/installer/
 tar -xvf ~/installer/dart-sass-1.66.1-linux-x64.tar.gz -C ~/installer/
 ```
 
-Pindahkan direktori `dart-sass` yang telah diekstrak ke direktori `/user/local/`.
+Pindahkan direktori `dart-sass` yang telah diekstrak ke direktori `/usr/local/`.
 
 ``` bash
 # Contoh:
-mv ~/installer/dart-sass /user/local/
+sudo mv ~/installer/dart-sass /usr/local/
 ```
 
-Tambahkan baris-baris berikut ke `$HOME/.profile` atau `/etc/profile` (untuk instalasi di seluruh user). Berikut contohnya:
+Tambah baris-baris berikut ke `$HOME/.profile` atau `/etc/profile` (untuk instalasi di seluruh user). Berikut contohnya:
 
 ```bash
 # /etc/profile: system-wide .profile file for the Bourne shell (sh(1))
@@ -159,10 +161,10 @@ sass --version
 
     ```bash
     # Perintah (jalankan di Terminal):
-    mv hugo /user/local/bin/
+    sudo mv hugo /usr/local/bin/
     ```
 
-5. Jalankan perintah ini untuk mengonfirmasi bahwa Hugo telah terinstal dengan benar.
+5. Jalankan perintah ini untuk mengkonfirmasi bahwa Hugo telah terinstal dengan benar.
 
     ```bash
     # Perintah (jalankan di Terminal):
