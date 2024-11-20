@@ -6,7 +6,7 @@ tags: ['Hugo', 'Docker']
 series: ['Personal Site with Hugo']
 draft: false
 ---
-
+****
 Having a personal website with a custom domain to write my thoughts, document my learnings, and showcase my projects has always been a long-time goal of mine. I recently decided to follow through on that goal and bought a domain name, along with a VPS (Virtual Private Server) subscription, to host my website. Why VPS when there are cheaper and easier solutions? Well, because I want to learn how to host my own website from scratch.
 
 To create this website, I researched a lot of options I could use, from the cloud provider to the tech stacks to use. For the cloud provider, I initially wanted to use DigitalOcean due to their "free trial" with limited credits. Unfortunately, they suspended my account right after I entered my credit card information. From all the information I gathered on the internet, they have a tendency to block accounts that use a new credit card as a fraud prevention measure. Deciding that contacting them would require too much effort on my part, I chose a local cloud provider in my country, idcloudhost. As for the website tech stacks, I had a few options from the recommendations of others on the internet and decided to use Hugo since I only need a static website for this project of mine.
@@ -46,7 +46,7 @@ sudo apt install git-all
 # Validate installation by checking Git version
 git version
 # Output
-git version 2.25.1
+git version 2.43.0
 ```
 
 #### Installing Go
@@ -57,13 +57,13 @@ I went to the official Go website (https://go.dev/doc/install) to get the instal
 wget <download_link> -P ~/installer/
 
 # Example:
-wget https://go.dev/dl/go1.21.4.linux-amd64.tar.gz -P ~/installer/
+wget https://go.dev/dl/go1.21.1.linux-amd64.tar.gz -P ~/installer/
 ```
 
 Next, install go with the command below:
 ```bash
 # It will remove the exisiting installation and install the go package in /usr/local
-sudo rm -rf /usr/local/go && tar -C ~/installer/ -xzf ~/installer/go1.21.4.linux-amd64.tar.gz && sudo mv ~/installer/go /usr/local/
+sudo rm -rf /usr/local/go && tar -C ~/installer/ -xzf ~/installer/go1.21.1.linux-amd64.tar.gz && sudo mv ~/installer/go /usr/local/
 ```
 
 Add these lines to `$HOME/.profile` or `/etc/profile` (for a system-wide installation). I used vi as my text editor. Here's how it looks:
@@ -83,7 +83,7 @@ Lastly, re-login to apply the changes of the profile file and verify the install
 # Validate installation by checking Go version
 go version
 # Output
-go version go1.21.4 linux/amd64
+go version go1.21.1 linux/amd64
 ```
 
 #### Installing Dart Sass
@@ -188,7 +188,7 @@ For development, I use a Docker container on my Windows machine. First, I instal
 
 ```dockerfile
 # Use a base image
-FROM ubuntu:20.04 AS base
+FROM ubuntu:24.04 AS base
 
 WORKDIR /tmp
 
@@ -218,9 +218,9 @@ EXPOSE 1313
 ```
 
 The Dockerfile provided above will build a Docker image with the following specifications:
-- Ubuntu 20.04 as operating system
+- Ubuntu 24.04 as operating system
 - go 1.21.1
-- hugo extended 0.118.2
+- hugo extended 0.119.0
 - dart-sass 1.66.1
 
 The version of all the listed software can be changed based on needs by modifying the software download links in the Dockerfile.
@@ -246,6 +246,9 @@ services:
     volumes:
       - "./srv/http/src:/srv/http/src"
 ```
+
+Note:
+- `--poll 700ms` was added to solve [**Issue 1**](#issue-1-file-changes-on-host-not-reflected-in-hugo-web-site)
 
 ## Running Hugo in Development
 ### Creating a New Project
@@ -339,3 +342,30 @@ sudo service apache2 restart
 ```
 
 Access the website with the domain name using a browser. Note that, the web server will serve "Page Not Found" since the Hugo project is still empty.
+
+## Issue Troubleshooting
+
+### Issue 1 File Changes on Host Not Reflected in Hugo Web Site
+<table>
+    <tr>
+        <td>Issue</td>
+        <td>
+            When editing development files on the host, the expected behavior was for changes to be immediately reflected at http://localhost:1313. However, although the file changes on the host were successfully reflected in the container, Hugo did not update the website when changes were made.
+        </td>
+    </tr>
+    <tr>
+        <td>Cause</td>
+        <td>
+            Common issue in windows host. Based on <a href="https://github.com/klakegg/docker-hugo/issues/61#issuecomment-1198441388">this source</a>:
+            <blockquote cite="https://github.com/klakegg/docker-hugo/issues/61#issuecomment-1198441388">
+            "In cases where Hugo CLI is running in a shared directory on linux VM on a windows host the dev server is not detecting file changes from the host environment. (ex: Whenever a docker dev environment is running on a windows host.). This is because by default most watchers will use native file system change detection. And it is not working well in this shared situation."
+            </blockquote>
+        </td>
+    </tr>
+    <tr>
+        <td>Solution</td>
+        <td>
+            Added <code>--poll 700ms</code> to the command in the compose file when running "hugo server".
+        </td>
+    </tr>
+</table>

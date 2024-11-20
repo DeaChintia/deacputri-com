@@ -46,7 +46,7 @@ sudo apt install git-all
 # Validasi hasil instal dengan mengecek versi Git
 git version
 # Keluaran
-git version 2.25.1
+git version 2.43.0
 ```
 
 #### Menginstal Go
@@ -57,13 +57,13 @@ Saya mendapatkan tautan unduhan (*download link*) *file* instalasi Go dari situs
 wget <tautan_unduhan> -P ~/installer/
 
 # Contoh:
-wget https://go.dev/dl/go1.21.4.linux-amd64.tar.gz -P ~/installer/
+wget https://go.dev/dl/go1.21.1.linux-amd64.tar.gz -P ~/installer/
 ```
 
 Selanjutnya, instal go dengan perintah berikut:
 ```bash
 # Perintah ini akan menghapus instalasi Go yang sudah ada dan menginstal package go ke /usr/local
-sudo rm -rf /usr/local/go && tar -C ~/installer/ -xzf ~/installer/go1.21.4.linux-amd64.tar.gz && sudo mv ~/installer/go /usr/local/
+sudo rm -rf /usr/local/go && tar -C ~/installer/ -xzf ~/installer/go1.21.1.linux-amd64.tar.gz && sudo mv ~/installer/go /usr/local/
 ```
 
 Tambah baris-baris berikut ke `$HOME/.profile` atau `/etc/profile` (untuk instalasi pada seluruh user). Saya menggunakan vim sebagai editor teks. Berikut contohnya:
@@ -83,7 +83,7 @@ Terakhir, verifikasi instalasi dengan menjalankan:
 # Validasi instalasi dengan mengecek versi Go
 go version
 # Keluaran
-go version go1.21.4 linux/amd64
+go version go1.21.1 linux/amd64
 ```
 
 #### Menginstal Dart Sass
@@ -189,7 +189,7 @@ Untuk *development*, saya menggunakan Docker *container* di mesin Windows saya. 
 
 ```dockerfile
 # Gunakan *base image*
-FROM ubuntu:20.04 AS base
+FROM ubuntu:24.04 AS base
 
 WORKDIR /tmp
 
@@ -219,9 +219,9 @@ EXPOSE 1313
 ```
 
 Dockerfile yang disediakan di atas akan membangun (*build*) *Docker image* dengan spesifikasi berikut:
-- Ubuntu 20.04 sebagai sistem operasi
+- Ubuntu 24.04 sebagai sistem operasi
 - go 1.21.1
-- hugo extended 0.118.2
+- hugo extended 0.119.0
 - dart-sass 1.66.1
 
 Versi semua perangkat lunak yang terdaftar dapat diubah berdasarkan kebutuhan dengan memodifikasi tautan unduhan perangkat lunak di dalam Dockerfile.
@@ -246,6 +246,8 @@ services:
       - "./srv/http/src:/srv/http/src"
 ```
 
+Catatan:
+- `--poll 700ms` ditambahkan untuk mengatasi [**Masalah 1**](#masalah-1-hugo-tidak-memperbarui-situs-setelah-perubahan-file-di-host)
 ## Menjalankan Hugo di *Development*
 ### Membuat Proyek Baru
 Untuk membuat proyek Hugo baru dengan Docker, saya menjalankan perintah berikut:
@@ -338,3 +340,30 @@ sudo service apache2 restart
 ```
 
 Akses situs web dengan menggunakan alamat IP global atau domain name yang sudah dikonfigurasi pada *VPS*. Perlu dicatat bahwa server web akan menampilkan "*Page Not Found*" karena proyek Hugo masih kosong.
+
+## Memperbaiki Masalah
+
+### Masalah 1 Hugo Tidak Memperbarui Situs Setelah Perubahan File di Host
+<table>
+    <tr>
+        <td>Masalah</td>
+        <td>
+            Ketika mengedit <i>file</i> pada <i>development</i> di <i>host</i>, hal yang diharapkan adalah perubahan langsung terlihat di http://localhost:1313. Namun, walau perubahan <i>file</i> di <i>host</i> berhasil tercermin di dalam <i>container</i>, Hugo tidak memperbarui situs web ketika terjadi perubahan.
+        </td>
+    </tr>
+    <tr>
+        <td>Penyebab</td>
+        <td>
+            Masalah yang umum terjadi pada docker yang di-<i>host</i> di Windows. Berdasarkan <a href="https://github.com/klakegg/docker-hugo/issues/61#issuecomment-1198441388">sumber berikut</a>:
+            <blockquote cite="https://github.com/klakegg/docker-hugo/issues/61#issuecomment-1198441388">
+            "<i>In cases where Hugo CLI is running in a shared directory on linux VM on a windows host the dev server is not detecting file changes from the host environment. (ex: Whenever a docker dev environment is running on a windows host.). This is because by default most watchers will use native file system change detection. And it is not working well in this shared situation.</i>"
+            </blockquote>
+        </td>
+    </tr>
+    <tr>
+        <td>Solusi</td>
+        <td>
+            Menambahkan <code>--poll 700ms</code> pada perintah di docker <i>compose file</i> saat menjalankan "hugo server".
+        </td>
+    </tr>
+</table>
