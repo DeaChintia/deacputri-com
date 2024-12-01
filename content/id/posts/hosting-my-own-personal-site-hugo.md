@@ -1,8 +1,8 @@
 ---
 title: 'Hosting Situs Web Personalku - Hugo Generator Situs Web Statis'
 date: '2024-04-09T16:28:00+07:00'
-categories: ['Hugo']
-tags: ['Hugo', 'Docker']
+categories: ['Web Hosting']
+tags: ['Hugo', 'Web Hosting', 'Docker']
 series: ['Situs Web Personal Pakai Hugo']
 draft: false
 ---

@@ -1,12 +1,12 @@
 ---
 title: 'Hosting My Own Personal Site - Hugo Static Website Generator'
 date: '2024-04-09T16:28:00+07:00'
-categories: ['Hugo']
-tags: ['Hugo', 'Docker']
+categories: ['Web Hosting']
+tags: ['Hugo', 'Web Hosting', 'Docker']
 series: ['Personal Site with Hugo']
 draft: false
 ---
-****
+
 Having a personal website with a custom domain to write my thoughts, document my learnings, and showcase my projects has always been a long-time goal of mine. I recently decided to follow through on that goal and bought a domain name, along with a VPS (Virtual Private Server) subscription, to host my website. Why VPS when there are cheaper and easier solutions? Well, because I want to learn how to host my own website from scratch.
 
 To create this website, I researched a lot of options I could use, from the cloud provider to the tech stacks to use. For the cloud provider, I initially wanted to use DigitalOcean due to their "free trial" with limited credits. Unfortunately, they suspended my account right after I entered my credit card information. From all the information I gathered on the internet, they have a tendency to block accounts that use a new credit card as a fraud prevention measure. Deciding that contacting them would require too much effort on my part, I chose a local cloud provider in my country, idcloudhost. As for the website tech stacks, I had a few options from the recommendations of others on the internet and decided to use Hugo since I only need a static website for this project of mine.
