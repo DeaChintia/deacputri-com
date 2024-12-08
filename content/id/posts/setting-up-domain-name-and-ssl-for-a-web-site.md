@@ -1,5 +1,5 @@
 ---
-title: 'Mengkonfigurasi Nama Domain dan SSL pada Situs Web dengan Namecheap dan Cerbot'
+title: 'Mengkonfigurasi Nama Domain dan SSL pada Situs Web dengan Namecheap dan Certbot'
 date: '2024-11-20T20:57:00+07:00'
 categories: ['Web Hosting']
 tags: ['Hugo', 'Web Hosting', 'SSL']
